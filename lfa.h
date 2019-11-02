@@ -36,9 +36,6 @@ typedef enum {
   WORD_FAIL = 0
 } wordEvalResult_t;
 
-// typedef struct alphabet_char_t {
-//     char c;
-// } alphabet_char_t;
 typedef char alphabet_char_t;
 
 typedef struct state_t {
@@ -46,7 +43,6 @@ typedef struct state_t {
     stateFinal_t isFinal;
     struct state_transition_ll_t *delta;
 } state_t;
-//TYPEDEF_STRUCT(state);
 
 typedef struct state_transition_ll_t {
     alphabet_char_t r;
@@ -55,13 +51,11 @@ typedef struct state_transition_ll_t {
     tapeMovement_t m;
     struct state_transition_ll_t *next;
 } state_transition_ll_t;
-//TYPEDEF_STRUCT(state_transition_ll);
 
 typedef struct tape_t {
     alphabet_char_t elements[MAX_TAPE];
     int ptr;
 } tape_t;
-//TYPEDEF_STRUCT(tape);
 
 typedef struct automata_t {
     struct state_t states[MAX_STATES];
@@ -69,10 +63,6 @@ typedef struct automata_t {
     struct state_t *current;
     struct tape_t tape;
 } automata_t ;
-//TYPEDEF_STRUCT(automata);
-
-// Helper functions
-//static int strcmp(const char *a, const char* b);
 
 extern void lfa_init_automata(automata_t *aut);
 extern void lfa_init_state(state_t *st, const char *name, stateFinal_t isFinal);
@@ -175,14 +165,12 @@ extern void lfa_create_transition_params(automata_t *aut, const char *origin, co
 extern void lfa_create_transition(automata_t *aut, state_t *src, state_t *dst, alphabet_char_t read, alphabet_char_t write, tapeMovement_t move) {
     state_transition_ll_t *newT = (state_transition_ll_t *)malloc(sizeof(state_transition_ll_t));
     if (!newT) return;
-    //printf("Creating transition %s --%c,%c,%d--> %s\n", src->name, read, write, move, dst->name);
     newT->r = read;
     newT->w = write;
     newT->m = move;
     newT->s = dst;
     newT->next = NULL;
     lfa_add_transition(src, newT);
-    //printf("\tDone\n");
 }
 
 extern void lfa_fill_tape(tape_t *tape, const char *contents) {
@@ -203,7 +191,6 @@ extern stateFinal_t lfa_eval(automata_t *aut) {
     aut->current = (aut->states);
     while (cont) {
         printTape(&(aut->tape), aut->tape.ptr, TAPE_PRINT_SIZE);
-        //printTransitions(aut->current);
         if (aut->current->delta == NULL) { cont = 0; break; } //May be wrong
         currentTrans = findTransition(aut->current, getTapePtr(aut->tape));
         if (currentTrans == NULL) { cont=0; break; } //printf("No transitions for the current state (%s) given current symbol (%c)", aut->current->name, getTapePtr(aut->tape));

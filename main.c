@@ -82,8 +82,6 @@ void parseTuring(const char *filename, automata_t *aut) {
     for (j = 0; j < lfa_jsmn[qpos].size; j++) {
         printf(" -> State: %.*s\n", retrieveJSON(lfa_jsmn, qpos + j + 1, lfa_temp));
         sprintf(newState.name, "%.*s", retrieveJSON(lfa_jsmn, qpos + j + 1, lfa_temp));
-        //jsmntok_t *g = &lfa_jsmn[qpos + j + 1];
-        //sprintf(newState.name, "%.*s", g->end - g->start, lfa_temp + g->start);
         lfa_add_state_automata(aut, newState);
     }
 
